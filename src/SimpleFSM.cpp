@@ -47,7 +47,7 @@ void SimpleFSM::setInitialState(State* state) {
 /////////////////////////////////////////////////////////////////
 
 bool SimpleFSM::trigger(int event_id) {
-  if (!is_initialized) _initFSM();
+  if (!is_initialized) _initFSM(micros());
   // Find the transition with the current state and given event.
   for (int i = 0; i < num_standard; i++) {
     if (transitions[i].from == current_state && transitions[i].event_id == event_id) {
@@ -110,7 +110,7 @@ void SimpleFSM::setFinishedHandler(CallbackFunction f) {
 /////////////////////////////////////////////////////////////////
 
 unsigned long SimpleFSM::lastTransitioned() const {
-  return (last_transition == 0) ? 0 : (millis() - last_transition);
+  return (last_transition == 0) ? 0 : (micros() - last_transition);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -121,14 +121,14 @@ bool SimpleFSM::isFinished() const {
 
 /////////////////////////////////////////////////////////////////
 
-void SimpleFSM::run(int interval /* = 1000 */, CallbackFunction tick_cb /* = NULL */) {
-  unsigned long now = millis();
+void SimpleFSM::run(unsigned long interval /* = 1000 */, CallbackFunction tick_cb /* = NULL */) {
+  unsigned long now = micros();
   // is the machine set up?
-  if (!is_initialized) _initFSM();
+  if (!is_initialized) _initFSM(now);
   // are we ok?
   if (current_state == NULL) return;
   // is it time?
-  if (now < last_run + interval) return;
+  if (now < last_run + interval * 1000) return;
   // are we done yet?
   if (is_finished) return;
   last_run = now;
@@ -157,11 +157,11 @@ void SimpleFSM::run(int interval /* = 1000 */, CallbackFunction tick_cb /* = NUL
 
 /////////////////////////////////////////////////////////////////
 
-bool SimpleFSM::_initFSM() {
+bool SimpleFSM::_initFSM(unsigned long now) {
   if (is_initialized) return false;
   is_initialized = true;
   if (inital_state == NULL) return false;
-  return _changeToState(inital_state, millis());
+  return _changeToState(inital_state, now);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ bool SimpleFSM::_transitionTo(AbstractTransition* transition) {
   if (transition->from->on_exit != NULL) transition->from->on_exit();
   if (transition->on_run_cb != NULL) transition->on_run_cb();
   if (on_transition_cb != NULL) on_transition_cb();
-  return _changeToState(transition->to, millis());
+  return _changeToState(transition->to, micros());
 }
 
 /////////////////////////////////////////////////////////////////

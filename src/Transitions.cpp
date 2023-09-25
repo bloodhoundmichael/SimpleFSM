@@ -82,16 +82,16 @@ TimedTransition::TimedTransition() : start(0), interval(0) {}
 
 /////////////////////////////////////////////////////////////////
 
-TimedTransition::TimedTransition(State* from, State* to, int interval, CallbackFunction on_run /* = NULL */, String name /* = "" */, GuardCondition guard /* = NULL */) : TimedTransition() {
+TimedTransition::TimedTransition(State* from, State* to, unsigned long interval, CallbackFunction on_run /* = NULL */, String name /* = "" */, GuardCondition guard /* = NULL */) : TimedTransition() {
   setup(from, to, interval, on_run, name, guard);
 }
 
 /////////////////////////////////////////////////////////////////
 
-void TimedTransition::setup(State* from, State* to, int interval, CallbackFunction on_run /* = NULL */, String name /* = "" */, GuardCondition guard /* = NULL */) {
+void TimedTransition::setup(State* from, State* to, unsigned long interval, CallbackFunction on_run /* = NULL */, String name /* = "" */, GuardCondition guard /* = NULL */) {
   this->from = from;
   this->to = to;
-  this->interval = interval;
+  this->interval = interval * 1000;
   this->on_run_cb = on_run;
   this->name = name;
   this->guard_cb = guard;
@@ -99,8 +99,8 @@ void TimedTransition::setup(State* from, State* to, int interval, CallbackFuncti
 
 /////////////////////////////////////////////////////////////////
 
-int TimedTransition::getInterval() const {
-  return interval;
+unsigned long TimedTransition::getInterval() const {
+  return interval / 1000;
 }
 
 /////////////////////////////////////////////////////////////////

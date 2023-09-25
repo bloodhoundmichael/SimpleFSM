@@ -66,12 +66,12 @@ class TimedTransition : public AbstractTransition {
 
  public:
   TimedTransition();
-  TimedTransition(State* from, State* to, int interval, CallbackFunction on_run = NULL, String name = "", GuardCondition guard = NULL);
+  TimedTransition(State* from, State* to, unsigned long interval, CallbackFunction on_run = NULL, String name = "", GuardCondition guard = NULL);
 
-  void setup(State* from, State* to, int interval, CallbackFunction on_run = NULL, String name = "", GuardCondition guard = NULL);
+  void setup(State* from, State* to, unsigned long interval, CallbackFunction on_run = NULL, String name = "", GuardCondition guard = NULL);
 
   int getID() const;
-  int getInterval() const;
+  unsigned long getInterval() const;
 
   void reset();
 

@@ -34,7 +34,7 @@ class SimpleFSM {
   void setTransitionHandler(CallbackFunction f);
 
   bool trigger(int event_id);
-  void run(int interval = 1000, CallbackFunction tick_cb = NULL);
+  void run(unsigned long interval = 1000, CallbackFunction tick_cb = NULL);
   void reset();
 
   bool isFinished() const;
@@ -63,7 +63,7 @@ class SimpleFSM {
 
   String dot_definition = "";
 
-  bool _initFSM();
+  bool _initFSM(unsigned long now);
   bool _transitionTo(AbstractTransition* transition);
   bool _changeToState(State* s, unsigned long now);
 
