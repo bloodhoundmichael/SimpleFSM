@@ -254,6 +254,14 @@ To see the latest changes to the library please take a look at the [Changelog](h
 Open the Arduino IDE choose "Sketch > Include Library" and search for "SimpleFSM".
 Or download the ZIP archive (<https://github.com/lennarthennigs/SimpleFSM/zipball/master>), and choose "Sketch > Include Library > Add .ZIP Library..." and select the downloaded file.
 
+## Setup Development Environment
+It is recommended to use platformio if you want to contribute.
+After forking/cloning, use i.e. the command
+```
+pio project init --ide vscode --board megaatmega2560
+```
+to setup a platformio environment for Arduino Mega 2560.
+
 ## License
 
 MIT License
