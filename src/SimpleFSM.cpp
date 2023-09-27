@@ -86,9 +86,7 @@ void SimpleFSM::setTransitionHandler(CallbackFunction f) {
 void SimpleFSM::add(Transition t[], int size) {
   transitions = t;
   num_standard = size;
-  for (int i = 0; i < size; i++) {
-    _addDotTransition(transitions[i]);
-  }
+  _updateDotTransition();
 }
 
 /////////////////////////////////////////////////////////////////
@@ -96,9 +94,7 @@ void SimpleFSM::add(Transition t[], int size) {
 void SimpleFSM::add(TimedTransition t[], int size) {
   timed = t;
   num_timed = size;
-  for (int i = 0; i < size; i++) {
-    _addDotTransition(timed[i]);
-  }
+  _updateDotTransition();
 }
 
 /////////////////////////////////////////////////////////////////
@@ -227,7 +223,21 @@ String SimpleFSM::_dot_header() {
 
 /////////////////////////////////////////////////////////////////
 
-void SimpleFSM::_addDotTransition(Transition& t) {
+void SimpleFSM::_updateDotTransition()
+{
+  dot_definition = "";
+  for (int i = 0; i < num_standard; i++) {
+    _addDotTransition(transitions[i]);
+  }
+  for (int i = 0; i < num_timed; i++) {
+    _addDotTransition(timed[i]);
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void SimpleFSM::_addDotTransition(Transition &t)
+{
   dot_definition = dot_definition + _dot_transition(t.from->getName(), t.to->getName(), t.getName(), "ID=" + String(t.event_id));
 }
 

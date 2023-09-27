@@ -67,6 +67,7 @@ class SimpleFSM {
   bool _transitionTo(AbstractTransition* transition);
   bool _changeToState(State* s, unsigned long now);
 
+  void _updateDotTransition();
   void _addDotTransition(Transition& t);
   void _addDotTransition(TimedTransition& t);
   String _dot_transition(String from, String to, String label, String param);
