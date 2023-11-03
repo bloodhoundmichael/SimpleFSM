@@ -33,9 +33,11 @@ void SimpleFSM::reset() {
   current_state = NULL;
   prev_state = NULL;
 
-    for (int i = 0; i < num_timed; i++) {
-      timed[i].reset();
+  for (int i = 0; i < num_timed; i++) {
+    timed[i].reset();
   }
+
+  log.reset();
 }
 
 /////////////////////////////////////////////////////////////////
@@ -174,6 +176,8 @@ bool SimpleFSM::_changeToState(State* s, unsigned long now) {
   // is this the end?
   if (s->is_final && finished_cb != NULL) finished_cb();
   if (s->is_final) is_finished = true;
+  // log
+  log.add(micros(), s);
   return true;
 }
 
@@ -184,6 +188,8 @@ bool SimpleFSM::_transitionTo(AbstractTransition* transition) {
   if (transition->to == NULL) return false;
   // can I pass the guard
   if (transition->guard_cb != NULL && !transition->guard_cb()) return false;
+  // log
+  log.add(micros(), transition);
   // trigger events
   if (transition->from->on_exit != NULL) transition->from->on_exit();
   if (transition->on_run_cb != NULL) transition->on_run_cb();

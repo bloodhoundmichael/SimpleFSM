@@ -12,6 +12,7 @@
 #include "Arduino.h"
 #include "State.h"
 #include "Transitions.h"
+#include "Log.h"
 
 /////////////////////////////////////////////////////////////////
 
@@ -43,6 +44,8 @@ class SimpleFSM {
   State* getPreviousState() const;
   unsigned long lastTransitioned() const;
   String getDotDefinition();
+
+  LogSimpleFSM log;
 
  protected:
   int num_timed = 0;

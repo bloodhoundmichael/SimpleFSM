@@ -19,6 +19,7 @@ typedef bool (*GuardCondition)();
 
 class AbstractTransition {
   friend class SimpleFSM;
+  friend class LogSimpleFSM;
 
  public:
   AbstractTransition();
