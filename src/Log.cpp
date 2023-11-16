@@ -44,6 +44,49 @@ String LogSimpleFSM::toString()
     return retVal;
 }
 
+String LogSimpleFSM::toJson()
+{
+    auto buffer = String("[");
+    for (int i = 0; i < size; i++)
+    {
+        auto entry = get(i);
+        if (i != 0)
+            buffer += ",";
+        if (entry.state != NULL)
+        {
+            buffer += "{";
+            buffer += "\"type\":";
+            buffer += "\"state\",";
+            buffer += "\"micros\":";
+            buffer += entry.micros;
+            buffer += ",";
+            buffer += "\"name\":\"";
+            buffer += entry.state->getName().c_str();
+            buffer += "\"";
+            buffer += "}";
+        }
+        if (entry.transition != NULL)
+        {
+            buffer += "{";
+            buffer += "\"type\":";
+            buffer += "\"transition\",";
+            buffer += "\"micros\":";
+            buffer += entry.micros;
+            buffer += ",";
+            buffer += "\"from\":\"";
+            buffer += entry.transition->from->getName();
+            buffer += "\"";
+            buffer += ",";
+            buffer += "\"to\":\"";
+            buffer += entry.transition->to->getName();
+            buffer += "\"";
+            buffer += "}";
+        }
+    }
+    buffer += "]";
+    return buffer;
+}
+
 void LogSimpleFSM::reset()
 {
     size = 0;

@@ -24,6 +24,7 @@ public:
     void add(unsigned long micros, AbstractTransition *transition);
     LogEntrySimpleFSM &get(int position);
     String toString();
+    String toJson();
     void reset();
 };
 
